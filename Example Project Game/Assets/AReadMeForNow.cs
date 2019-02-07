@@ -7,6 +7,7 @@ public class AReadMeForNow : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         print("Can you find this msg?");
+        print("Something Changed");
 	}
 	
 	// Update is called once per frame
