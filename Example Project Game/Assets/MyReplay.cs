@@ -4,26 +4,37 @@ using UnityEngine;
 
 public class MyReplay : MonoBehaviour {
 
-    private const int bufferFrames = 100;
+    private const int bufferFrames = 1000;
     private MyKeyFrame[] keyFrame = new MyKeyFrame[bufferFrames];
     private Rigidbody rB;
+    private int frameIndex;
+
+    private GameManagerNow manager;
 
 
 	// Use this for initialization
 	void Start () {
         rB = GetComponent<Rigidbody>();
+        manager = GameManagerNow.FindObjectOfType<GameManagerNow>();
 	}
 	
 	// Update is called once per frame
 	void Update ()
     {
-        Record();
+        if (manager.Recording)
+        {
+            Record();
+        }
+        else
+        {
+            PlayBack();
+        }
     }
 
     void PlayBack()
     {
         rB.isKinematic = true;
-        int frame = Time.frameCount % bufferFrames;
+        int frame = Time.frameCount % frameIndex;
         print("Reading Frames " + frame);
         transform.position = keyFrame[frame].postion;
         transform.rotation = keyFrame[frame].rotation;
@@ -37,6 +48,15 @@ public class MyReplay : MonoBehaviour {
         print("Writing frame " + frame);
 
         keyFrame[frame] = new MyKeyFrame(time, transform.position, transform.rotation);
+
+        if (frame <= bufferFrames)
+        {
+            frameIndex = frame;
+        }
+        else
+        {
+            frameIndex = 0;
+        }
     }
 }
 
