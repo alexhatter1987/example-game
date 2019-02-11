@@ -45,7 +45,7 @@ public class MyReplay : MonoBehaviour {
         rB.isKinematic = false;
         int frame = Time.frameCount % bufferFrames;
         float time = Time.time;
-        print("Writing frame " + frame);
+       // print("Writing frame " + frame);
 
         keyFrame[frame] = new MyKeyFrame(time, transform.position, transform.rotation);
 
